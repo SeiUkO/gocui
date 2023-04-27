@@ -18,6 +18,59 @@ type TextArea struct {
 	clipboard string
 }
 
+func (self *TextArea) BackSpaceCharPrompt() {
+	if self.cursor == 2 {
+		return
+	}
+
+	self.content = append(self.content[:self.cursor-1], self.content[self.cursor:]...)
+	self.cursor--
+}
+
+func (self *TextArea) MoveCursorLeftPrompt() {
+	if self.cursor == 2 {
+		return
+	}
+
+	self.cursor--
+}
+
+func (self *TextArea) GoToStartOfLinePrompt() {
+	// if self.atLineStart() {
+	if self.cursor == 2 {
+		return
+	}
+
+	// otherwise, you delete everything up to the start of the current line, without
+	// deleting the newline character
+	// newlineIndex := self.closestNewlineOnLeft()
+	self.cursor = 2
+}
+
+func (self *TextArea) MoveLeftWordPrompt() {
+	if self.cursor == 2 {
+		return
+	}
+	// if self.atLineStart() {
+	// 	self.cursor--
+	// 	return
+	// }
+
+	for self.cursor > 2 && strings.ContainsRune(WHITESPACES, self.content[self.cursor-1]) {
+		self.cursor--
+	}
+	separators := false
+	for self.cursor > 2 && strings.ContainsRune(WORD_SEPARATORS, self.content[self.cursor-1]) {
+		self.cursor--
+		separators = true
+	}
+	if !separators {
+		for self.cursor > 2 && !strings.ContainsRune(WHITESPACES+WORD_SEPARATORS, self.content[self.cursor-1]) {
+			self.cursor--
+		}
+	}
+}
+
 func (self *TextArea) TypeRune(r rune) {
 	if self.overwrite && !self.atEnd() {
 		self.content[self.cursor] = r
