@@ -161,6 +161,10 @@ type View struct {
 	CanScrollPastBottom bool
 }
 
+func (v *View) GetViewPosition() (int, int, int, int) {
+	return v.x0, v.y0, v.x0, v.y0
+}
+
 // call this in the event of a view resize, or if you want to render new content
 // without the chance of old content still appearing, or if you want to remove
 // a line from the existing content
