@@ -133,7 +133,7 @@ type Gui struct {
 	stop              chan struct{}
 	blacklist         []Key
 
-	eventMouse tcell.EventMouse
+	EventMouse tcell.EventMouse
 
 	// BgColor and FgColor allow to configure the background and foreground
 	// colors of the GUI.
