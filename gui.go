@@ -133,7 +133,7 @@ type Gui struct {
 	stop              chan struct{}
 	blacklist         []Key
 
-	EventMouse tcell.EventMouse
+	GocuiEvent *GocuiEvent
 
 	// BgColor and FgColor allow to configure the background and foreground
 	// colors of the GUI.
@@ -708,6 +708,7 @@ func (g *Gui) consumeevents() error {
 // handleEvent handles an event, based on its type (key-press, error,
 // etc.)
 func (g *Gui) handleEvent(ev *GocuiEvent) error {
+	g.GocuiEvent = ev
 	switch ev.Type {
 	case eventKey, eventMouse:
 		return g.onKey(ev)

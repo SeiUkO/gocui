@@ -292,7 +292,6 @@ func (g *Gui) pollEvent() GocuiEvent {
 			Mod:  Modifier(mod),
 		}
 	case *tcell.EventMouse:
-		g.EventMouse = *tev
 		x, y := tev.Position()
 		button := tev.Buttons()
 		mouseKey := MouseRelease
