@@ -979,7 +979,7 @@ func (v *View) draw() error {
 
 	visibleViewLinesHeight := v.viewLineLengthIgnoringTrailingBlankLines()
 	if v.Autoscroll && visibleViewLinesHeight > maxY {
-		v.oy = visibleViewLinesHeight - maxY
+		v.oy = visibleViewLinesHeight - maxY + 1
 	}
 
 	if len(v.viewLines) == 0 {
