@@ -15,7 +15,7 @@ func calcScrollbar(listSize int, pageSize int, position int, scrollAreaSize int)
 		return scrollAreaSize - height, height
 	}
 	// we only want to show the scrollbar at the top or bottom positions if we're at the end. Hence the .Ceil (for moving the scrollbar once we scroll down) and the -1 (for pretending there's a smaller range than we actually have, with the above condition ensuring we snap to the bottom once we're at the end of the list)
-	start := int(math.Ceil(((float64(position) / float64(maxPosition)) * float64(scrollAreaSize-height+2))))
+	start := int(math.Ceil(((float64(position) / float64(maxPosition)) * float64(scrollAreaSize-height))))
 	return start, height
 }
 
