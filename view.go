@@ -13,7 +13,6 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/gdamore/tcell/v2/termbox"
 	"github.com/go-errors/errors"
 	"github.com/mattn/go-runewidth"
 )
@@ -444,15 +443,12 @@ func (v *View) setRune(x, y int, ch rune, fgColor, bgColor Attribute) error {
 		bgColor = bgColor | v.SelBgColor
 	}
 
-	termbox.SetCell(v.x0+x+1, v.y0+y+1, ch,
-		termbox.Attribute(fgColor), termbox.Attribute(bgColor))
-
 	// Don't display NUL characters
-	// if ch == 0 {
-	// 	ch = ' '
-	// }
+	if ch == 0 {
+		ch = ' '
+	}
 
-	// tcellSetCell(v.x0+x+1, v.y0+y+1, ch, fgColor, bgColor, v.outMode)
+	tcellSetCell(v.x0+x+1, v.y0+y+1, ch, fgColor, bgColor, v.outMode)
 
 	return nil
 }
