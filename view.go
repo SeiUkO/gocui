@@ -408,7 +408,7 @@ func (v *View) Name() string {
 // setRune sets a rune at the given point relative to the view. It applies the
 // specified colors, taking into account if the cell must be highlighted. Also,
 // it checks if the position is valid.
-func (v *View) setRune(x, y int, ch rune, fgColor, bgColor Attribute) error {
+func (v *View) setRune(x, y int, ch rune, fgColor, bgColor Attribute, isEmpty bool) error {
 	maxX, maxY := v.Size()
 	if x < 0 || x >= maxX || y < 0 || y >= maxY {
 		return ErrInvalidPoint
@@ -429,7 +429,7 @@ func (v *View) setRune(x, y int, ch rune, fgColor, bgColor Attribute) error {
 		}
 	}
 
-	if v.Mask != 0 {
+	if v.Mask != 0 && !isEmpty {
 		fgColor = v.FgColor
 		bgColor = v.BgColor
 		ch = v.Mask
@@ -1023,10 +1023,13 @@ func (v *View) draw() error {
 				}
 			}
 
+			isEmpty := false
+
 			// if we're out of cells to write, we'll just print empty cells.
 			if cellIdx > len(vline.line)-1 {
 				c = emptyCell
 				c.fgColor = prevFgColor
+				isEmpty = true
 			} else {
 				c = vline.line[cellIdx]
 				// capturing previous foreground colour so that if we're using the reverse
@@ -1051,7 +1054,7 @@ func (v *View) draw() error {
 				}
 			}
 
-			if err := v.setRune(x, y, c.chr, fgColor, bgColor); err != nil {
+			if err := v.setRune(x, y, c.chr, fgColor, bgColor, isEmpty); err != nil {
 				return err
 			}
 
